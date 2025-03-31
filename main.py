@@ -1,11 +1,12 @@
 # This is a sample Python script.
 from recipes import Recipe, MainDishRecipe
+from data import ingredients_data, main_dish_data
+from App import App
 
-recipe = Recipe("Test", 10, "beginner")
-print(recipe.display_recipe())
 
-main_dish = MainDishRecipe("Main", 10, "beginner", cooking_time = 10)
-main_dish.is_vegetarian = True
-main_dish.is_vegan = True
-print(main_dish.display_recipe())
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+recipe_list = [MainDishRecipe(recipe_data['name'], recipe_data['prep_time'], recipe_data['level'], recipe_data['cooking_time'], recipe_data['ingredients']) for recipe_data in main_dish_data]
+
+app = App(recipe_list).run()
+
+

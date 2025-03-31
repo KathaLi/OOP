@@ -12,17 +12,13 @@ class IngredientItem:
 
 ### This script creates the parent, abstract class recipe
 class Recipe:
-    def __init__(self, name, prep_time, level):
+    def __init__(self, name, prep_time, level, ingredients):
         self.name = name
         #prep_time in min
         self.prep_time = prep_time
         self.is_meal_prep = False
         self.level = level
-        self.ingredients = [
-            IngredientItem(name = "broccoli", amount = 1, calories = 100, carbs = 2, fat=3, sugar=2),
-            IngredientItem(name = "noodles", amount = 100, calories = 200, carbs = 4, fat=3, sugar=2),
-            IngredientItem(name = "garlic", amount = 50, calories = 15, carbs = 8, fat=3, sugar=2),
-        ]
+        self.ingredients = ingredients
         #self.ingredients = ingredients
     def display_recipe(self):
         print(f"{self.name} for {self.level} \n")
@@ -42,8 +38,8 @@ class Recipe:
 
 
 class MainDishRecipe(Recipe):
-    def __init__(self, name, prep_time, level,cooking_time):
-        Recipe.__init__(self, name = name, prep_time = prep_time, level = level)
+    def __init__(self, name, prep_time, level,cooking_time, ingredients):
+        Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients = ingredients)
         self.cooking_time = cooking_time
         self.is_vegetarian = False
         self.is_vegan = False
