@@ -10,7 +10,7 @@ class App:
         recipes = []
         for recipe in self.recipe_list:
             for ingredient in recipe.ingredients:
-                if (ingredient['name'] == 'broccoli'):
+                if ingredient.name == 'broccoli':
                     recipes.append(recipe.display_recipe())
                 else:
                     pass

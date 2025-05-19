@@ -11,15 +11,23 @@ class IngredientItem:
 
 
 ### This script creates the parent, abstract class recipe
+
+## Create class Recipe
 class Recipe:
-    def __init__(self, name, prep_time, level, ingredients):
+    def __init__(self, name, prep_time, level, ingredients, text):
+        # name of the recipe as string
         self.name = name
-        #prep_time in min
+        # preparation time of the recipe in minutes as integers
         self.prep_time = prep_time
-        self.is_meal_prep = False
+        # cooking level needed for the recipe with values ['beginner', 'advanced', 'expert']
         self.level = level
-        self.ingredients = ingredients
-        #self.ingredients = ingredients
+        # ingredients needed for the recipe as list of strings
+        self.ingredients = [IngredientItem(IN['name'], IN['amount'], IN['calories'], IN['carbs'], IN['fat'], IN['sugar']) for IN in ingredients]
+        # explanation of the recipe as string
+        self.text = text
+        # boolean to specify whether the recipe is suitable for meal prepping
+        self.is_meal_prep = False
+
     def display_recipe(self):
         print(f"{self.name} for {self.level} \n")
         print(f"Prep time:{self.prep_time} minutes \n")
@@ -38,8 +46,8 @@ class Recipe:
 
 
 class MainDishRecipe(Recipe):
-    def __init__(self, name, prep_time, level,cooking_time, ingredients):
-        Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients = ingredients)
+    def __init__(self, name, prep_time, level,cooking_time, ingredients, text):
+        Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients = ingredients, text = text)
         self.cooking_time = cooking_time
         self.is_vegetarian = False
         self.is_vegan = False
