@@ -1,3 +1,4 @@
+import random
 class IngredientItem:
     def __init__(self, name, amount, calories, carbs, fat, sugar):
         self.name = name
@@ -22,26 +23,27 @@ class Recipe:
         # cooking level needed for the recipe with values ['beginner', 'advanced', 'expert']
         self.level = level
         # ingredients needed for the recipe as list of strings
-        self.ingredients = [IngredientItem(IN['name'], IN['amount'], IN['calories'], IN['carbs'], IN['fat'], IN['sugar']) for IN in ingredients]
+        self.ingredients = ingredients
         # explanation of the recipe as string
         self.text = text
         # boolean to specify whether the recipe is suitable for meal prepping
         self.is_meal_prep = False
 
     def display_recipe(self):
+        # method displays an overview of the recipe in the console
         print(f"{self.name} for {self.level} \n")
         print(f"Prep time:{self.prep_time} minutes \n")
         if self.is_meal_prep:
             print(f"Perfect for meal prep \n")
     def calculate_calories(self):
-        calories = 0
-        for ingredient in self.ingredients:
-            calories += ingredient.calories
-        return calories
+        # method calculates the total calories of the recipe with used ingredients
+        pass
     def calculate_total_time(self):
-       return self.prep_time
+        # method calculates the total time needed for the recipe
+        pass
     def calculate_rating(self):
-        return 10
+        # method calculates the ratings given by other users
+        return random.randint(1,10)
 
 
 
@@ -52,22 +54,10 @@ class MainDishRecipe(Recipe):
         self.is_vegetarian = False
         self.is_vegan = False
         self.need_oven = False
-    def display_recipe(self):
-        print(f"{self.name} for {self.level} \n")
-        print(f"Prep time:{self.prep_time} minutes \n")
-        if self.is_meal_prep:
-            print(f"Perfect for meal prep \n")
-        if self.is_vegetarian and (self.is_vegan == False):
-            print(f"Suitable for a vegetarian diet \n")
-        if self.is_vegan:
-            print(f"Suitable for a vegan diet \n")
     def calculate_carbs(self):
-        carbs = 0
-        for ingredient in self.ingredients:
-            carbs += ingredient.calories
-        return carbs
+        pass
     def calculate_total_time(self):
-        return self.prep_time + self.cooking_time
+        pass
 
 class DessertRecipe(Recipe):
     def __init__(self, name, prep_time, level,cooling_time):
