@@ -1,3 +1,9 @@
+import random
+
+
+def display_header_footer():
+    print("*" * 30 + "\n")
+
 class IngredientItem:
     def __init__(self, name, amount, calories, carbs, fat, sugar):
         self.name = name
@@ -14,7 +20,7 @@ class IngredientItem:
 
 ## Create class Recipe
 class Recipe:
-    def __init__(self, name, prep_time, level, ingredients, text):
+    def __init__(self, name, prep_time, level, ingredients, text, is_meal_prep = False):
         # name of the recipe as string
         self.name = name
         # preparation time of the recipe in minutes as integers
@@ -25,53 +31,72 @@ class Recipe:
         self.ingredients = [IngredientItem(IN['name'], IN['amount'], IN['calories'], IN['carbs'], IN['fat'], IN['sugar']) for IN in ingredients]
         # explanation of the recipe as string
         self.text = text
-        # boolean to specify whether the recipe is suitable for meal prepping
-        self.is_meal_prep = False
+        # boolean to specify whether the recipe is suitable for optional attribute meal prepping
+        self.is_meal_prep = is_meal_prep
 
     def display_recipe(self):
+        # method displays display_body with header and footer
+        display_header_footer()
+        self.display_body()
+        display_header_footer()
+
+    def display_body(self):
+        # method displays all relevant information for recipe selection
         print(f"{self.name} for {self.level} \n")
         print(f"Prep time:{self.prep_time} minutes \n")
         if self.is_meal_prep:
             print(f"Perfect for meal prep \n")
+
     def calculate_calories(self):
+        # method calculates the total calories of the recipe with used ingredients
         calories = 0
         for ingredient in self.ingredients:
             calories += ingredient.calories
         return calories
     def calculate_total_time(self):
-       return self.prep_time
+        # method calculates the total time needed for the recipe
+        return self.prep_time
     def calculate_rating(self):
-        return 10
+        # method calculates the ratings given vy other users
+        return random.randint(50,100)
 
-
-
+# Create child class MainDishRecipe
 class MainDishRecipe(Recipe):
-    def __init__(self, name, prep_time, level,cooking_time, ingredients, text):
-        Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients = ingredients, text = text)
+    def __init__(self, name, prep_time, level,cooking_time, ingredients, text, is_vegetarian = False, is_vegan = False,
+                 need_oven = False):
+        # initialize parent class
+        Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients = ingredients, text = text,
+                        is_meal_prep = False)
+        # cooking_time of the recipe in minutes as integers
         self.cooking_time = cooking_time
-        self.is_vegetarian = False
-        self.is_vegan = False
-        self.need_oven = False
-    def display_recipe(self):
-        print(f"{self.name} for {self.level} \n")
-        print(f"Prep time:{self.prep_time} minutes \n")
+        # boolean for optional attribute to specify whether suitable for vegetarian diet
+        self.is_vegetarian = is_vegetarian
+        # boolean for optional attribute to specify whether suitable for vegan diet
+        self.is_vegan = is_vegan
+        # boolean for optional attribute to specify whether oven is needed
+        self.need_oven = need_oven
+    def display_body(self):
+        # call parent method
+        Recipe.display_body(self)
+        # add further information
+        print(f"Cooking time:{self.cooking_time} minutes \n")
         if self.is_meal_prep:
             print(f"Perfect for meal prep \n")
         if self.is_vegetarian and (self.is_vegan == False):
             print(f"Suitable for a vegetarian diet \n")
-        if self.is_vegan:
+        elif self.is_vegan:
             print(f"Suitable for a vegan diet \n")
     def calculate_carbs(self):
-        carbs = 0
+        calories = 0
         for ingredient in self.ingredients:
-            carbs += ingredient.calories
-        return carbs
+            calories += ingredient.calories
+        return calories
     def calculate_total_time(self):
         return self.prep_time + self.cooking_time
 
 class DessertRecipe(Recipe):
-    def __init__(self, name, prep_time, level,cooling_time):
-        Recipe.__init__(self, name = name, prep_time = prep_time, level = level)
+    def __init__(self, name, prep_time, level, ingredients, text, cooling_time):
+        Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients=ingredients, text = text, is_meal_prep = False)
         self.cooling_time = cooling_time
         self.contains_nuts = False
     def display_recipe(self):
