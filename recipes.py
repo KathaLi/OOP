@@ -1,22 +1,22 @@
 import random
+from operator import contains
+
+from data import ingredients_data
 
 
 def display_header_footer():
     print("*" * 30 + "\n")
 
 class IngredientItem:
-    def __init__(self, name, amount, calories, carbs, fat, sugar):
+    def __init__(self, name, amount, base_nutrition):
         self.name = name
         self.amount = amount
-        self.calories = calories
-        self.carbs = carbs
-        self.fat =fat
-        self.sugar = sugar
+        self.calories = round(base_nutrition["calories"] * self.amount, 2)
+        self.carbs = round(base_nutrition["carbs"] * self.amount, 2)
+        self.fat = round(base_nutrition["fat"] * self.amount, 2)
+        self.sugar = round(base_nutrition["sugar"] * self.amount, 2)
 
 
-
-
-### This script creates the parent, abstract class recipe
 
 ## Create class Recipe
 class Recipe:
@@ -27,8 +27,15 @@ class Recipe:
         self.prep_time = prep_time
         # cooking level needed for the recipe with values ['beginner', 'advanced', 'expert']
         self.level = level
-        # ingredients needed for the recipe as list of strings
-        self.ingredients = [IngredientItem(IN['name'], IN['amount'], IN['calories'], IN['carbs'], IN['fat'], IN['sugar']) for IN in ingredients]
+        # create IngredientItem instances for dictionary of ingredients
+        self.ingredients = []
+        for ing in ingredients:
+            base_data = ingredients_data.get(ing["name"].lower())
+            if base_data:
+                ingredient = IngredientItem(ing["name"], ing["amount"], base_data)
+                self.ingredients.append(ingredient)
+            else:
+                print(f"⚠ Ingredient '{ing['name']}' not found!")
         # explanation of the recipe as string
         self.text = text
         # boolean to specify whether the recipe is suitable for optional attribute meal prepping
@@ -42,6 +49,8 @@ class Recipe:
 
     def display_body(self):
         # method displays all relevant information for recipe selection
+        category = type(self).__name__.replace("Recipe", " Recipe")
+        print(category)
         print(f"{self.name} for {self.level} \n")
         print(f"Prep time:{self.prep_time} minutes \n")
         if self.is_meal_prep:
@@ -63,10 +72,10 @@ class Recipe:
 # Create child class MainDishRecipe
 class MainDishRecipe(Recipe):
     def __init__(self, name, prep_time, level,cooking_time, ingredients, text, is_vegetarian = False, is_vegan = False,
-                 need_oven = False):
+                 need_oven = False, is_meal_prep = False):
         # initialize parent class
         Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients = ingredients, text = text,
-                        is_meal_prep = False)
+                        is_meal_prep = is_meal_prep)
         # cooking_time of the recipe in minutes as integers
         self.cooking_time = cooking_time
         # boolean for optional attribute to specify whether suitable for vegetarian diet
@@ -87,29 +96,30 @@ class MainDishRecipe(Recipe):
         elif self.is_vegan:
             print(f"Suitable for a vegan diet \n")
     def calculate_carbs(self):
-        calories = 0
+        carbs = 0
         for ingredient in self.ingredients:
-            calories += ingredient.calories
-        return calories
+            carbs += ingredient.carbs
+        return carbs
     def calculate_total_time(self):
         return self.prep_time + self.cooking_time
 
 class DessertRecipe(Recipe):
-    def __init__(self, name, prep_time, level, ingredients, text, cooling_time):
-        Recipe.__init__(self, name = name, prep_time = prep_time, level = level, ingredients=ingredients, text = text, is_meal_prep = False)
+    def __init__(self, name, prep_time, level, cooling_time, ingredients, text, is_meal_prep=False, contains_nuts = False):
+        Recipe.__init__(self, name=name, prep_time=prep_time, level=level, ingredients=ingredients, text=text, is_meal_prep=is_meal_prep)
         self.cooling_time = cooling_time
-        self.contains_nuts = False
-    def display_recipe(self):
-        print(f"{self.name} for {self.level} \n")
-        print(f"Prep time:{self.prep_time} minutes \n")
-        if self.is_meal_prep:
-            print(f"Perfect for meal prep \n")
+        self.contains_nuts = contains_nuts
+    def display_body(self):
+        # call parent method
+        Recipe.display_body(self)
+        # add further information
+        print(f"Cooling time:{self.cooling_time} minutes \n")
+        print(f"Total time:{self.calculate_total_time()} minutes \n")
         if not self.contains_nuts:
-            print(f"Suitable for a nut allergies \n")
+            print(f"Suitable for nut allergies \n")
     def calculate_fat(self):
         fat = 0
         for ingredient in self.ingredients:
-            fat += ingredient.sugar
+            fat += ingredient.fat
         return fat
     def calculate_sugar(self):
         sugar = 0
@@ -120,18 +130,20 @@ class DessertRecipe(Recipe):
         return self.prep_time +self.cooling_time
 
 class CakeRecipe(DessertRecipe):
-    def __init__(self, name, prep_time, level,cooling_time, baking_time):
-        DessertRecipe.__init__(self, name = name, prep_time = prep_time, level = level, cooling_time = cooling_time)
+    def __init__(self, name, prep_time, level, cooling_time, baking_time, ingredients, text, is_meal_prep=False,
+                 contains_nuts = False):
+        DessertRecipe.__init__(self, name=name, prep_time=prep_time, level=level, cooling_time=cooling_time,
+                               ingredients=ingredients, text=text, is_meal_prep=is_meal_prep,
+                               contains_nuts = contains_nuts)
         self.baking_time = baking_time
     def calculate_total_time(self):
         return self.prep_time + self.cooling_time + self.baking_time
-    def display_recipe(self):
-        print(f"{self.name} for {self.level} \n")
-        print(f"Prep time:{self.prep_time} minutes \n")
-        if self.is_meal_prep:
-            print(f"Perfect for meal prep \n")
-        if not self.contains_nuts:
-            print(f"Suitable for a nut allergies \n")
+    def display_body(self):
+        # call parent method
+        DessertRecipe.display_body(self)
+        # add further information
+        print(f"Baking time:{self.baking_time} minutes \n")
+
 
 
 
