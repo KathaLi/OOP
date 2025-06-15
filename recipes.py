@@ -125,7 +125,7 @@ class DessertRecipe(Recipe):
         sugar = 0
         for ingredient in self.ingredients:
             sugar += ingredient.sugar
-            return sugar
+        return sugar
     def calculate_total_time(self):
         return self.prep_time +self.cooling_time
 

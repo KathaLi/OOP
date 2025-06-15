@@ -1,4 +1,6 @@
-# This is a sample Python script.
+# This script loads the recipes and runs the App.
+# Run to start.
+
 from recipes import Recipe, MainDishRecipe, DessertRecipe, CakeRecipe, IngredientItem
 from data import ingredients_data, main_dish_data, dessert_data, cake_data
 from App import App
