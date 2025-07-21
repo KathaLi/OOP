@@ -22,6 +22,7 @@ class MainDishRecipe:
         self.is_vegan = is_vegan
         # boolean to specify whether one needs an oven
         self.need_oven = need_oven
+
     def display_recipe(self):
         print(f"{self.name} for {self.level} \n")
         print(f"Prep time:{self.prep_time} minutes \n")
