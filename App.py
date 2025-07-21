@@ -1,3 +1,4 @@
+# This script defines the App class.
 from data import ingredients_data, main_dish_data, dessert_data, cake_data
 
 

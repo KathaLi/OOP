@@ -1,4 +1,7 @@
-## carbs, fat, sugar per 100g
+# This script holds the needed data: recipes, ingredients.
+
+## carbs, fat, sugar per 100g or piece, depending on ingredient
+## values are exemplary only and were not verified
 ingredients_data = {
     "broccoli": {"calories": 30, "carbs": 6, "fat": 0.3, "sugar": 1},
     "noodles": {"calories": 150, "carbs": 30, "fat": 1.2, "sugar": 1},
@@ -13,7 +16,7 @@ ingredients_data = {
     "lentils": {"calories": 116, "carbs": 20, "fat": 0.4, "sugar": 1.8},
     "olive oil": {"calories": 900, "carbs": 0, "fat": 100, "sugar": 0},
     "spinach": {"calories": 23, "carbs": 3.6, "fat": 0.4, "sugar": 0.4},
-    "egg": {"calories": 143, "carbs": 1.1, "fat": 10, "sugar": 1.1},
+    "egg": {"calories": 72, "carbs": 0.6, "fat": 5.4, "sugar": 0},
     "milk": {"calories": 64, "carbs": 5, "fat": 3.6, "sugar": 5},
     "flour": {"calories": 364, "carbs": 76, "fat": 1, "sugar": 0.3},
     "butter": {"calories": 717, "carbs": 0.1, "fat": 81, "sugar": 0},
@@ -21,6 +24,8 @@ ingredients_data = {
     "vanilla sugar": {"calories": 400, "carbs": 100, "fat": 0, "sugar": 100},
     "baking powder": {"calories": 53, "carbs": 27, "fat": 0, "sugar": 0}
 }
+# prep_time, cooking_time in minutes
+# amount in grams or piece depending on ingredient
 main_dish_data = [
     {
         "name": "Broccoli Noodles",
