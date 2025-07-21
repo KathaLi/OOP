@@ -1,6 +1,7 @@
 ## Create class MainDishRecipe
 class MainDishRecipe:
-    def __init__(self, name, prep_time, level, ingredients, text, cooking_time):
+    def __init__(self, name, prep_time, level, ingredients, text, cooking_time, is_meal_prep = False,
+                 is_vegetarian = False, is_vegan = False, need_oven = False):
         # name of the recipe as string
         self.name = name
         # preparation time of the recipe in minutes as integer
@@ -11,16 +12,16 @@ class MainDishRecipe:
         self.ingredients = ingredients
         # explanation of the recipe as string
         self.text = text
-        # boolean to specify whether the recipe is suitable for meal prepping
-        self.is_meal_prep = False
         # cooking time needed for the recipe in minutes as integer
         self.cooking_time = cooking_time
+        # boolean to specify whether the recipe is suitable for meal prepping
+        self.is_meal_prep = is_meal_prep
         # boolean to specify whether the recipe is suitable for vegetarian diet
-        self.is_vegetarian = False
+        self.is_vegetarian = is_vegetarian
         # boolean to specify whether the recipe is suitable for vegan diet
-        self.is_vegan = False
+        self.is_vegan = is_vegan
         # boolean to specify whether one needs an oven
-        self.need_oven = False
+        self.need_oven = need_oven
     def display_recipe(self):
         print(f"{self.name} for {self.level} \n")
         print(f"Prep time:{self.prep_time} minutes \n")
