@@ -65,6 +65,9 @@ class MainDishRecipe(Recipe):
         self.is_vegan = is_vegan
         # boolean for optional attribute to specify whether oven is needed
         self.need_oven = need_oven
+    def calculate_carbs(self):
+        # method calculates carbs from ingredients
+        pass
     def display_body(self):
         # method displays all relevant information for recipe selection
         # call parent method
@@ -77,12 +80,7 @@ class MainDishRecipe(Recipe):
             print(f"Suitable for a vegetarian diet \n")
         elif self.is_vegan:
             print(f"Suitable for a vegan diet \n")
-    def calculate_carbs(self):
-        # method calculates carbs from ingredients
-        carbs = 0
-        for ingredient in self.ingredients:
-            carbs += ingredient.carbs
-        return carbs
+
     def calculate_total_time(self):
         # method calculates the total time needed for the recipe
         return self.prep_time + self.cooking_time
