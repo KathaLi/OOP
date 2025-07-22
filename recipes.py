@@ -6,21 +6,6 @@ from data import ingredients_data
 def display_header_footer():
     print("*" * 30 + "\n")
 
-# Create Class IngredientItem used in recipe classes
-class IngredientItem:
-    def __init__(self, name, amount, base_nutrition):
-        # name of ingredient as a string
-        self.name = name
-        # amount of ingredient as float
-        self.amount = amount
-        # extract calories, carbs, fat and sugar from base_nutrition and round to 2 decimals
-        self.calories = round(base_nutrition["calories"] * self.amount, 2)
-        self.carbs = round(base_nutrition["carbs"] * self.amount, 2)
-        self.fat = round(base_nutrition["fat"] * self.amount, 2)
-        self.sugar = round(base_nutrition["sugar"] * self.amount, 2)
-
-
-
 ## Create class Recipe
 class Recipe:
     def __init__(self, name, prep_time, level, ingredients, text, is_meal_prep = False):
@@ -31,16 +16,7 @@ class Recipe:
         # cooking level needed for the recipe with values ['beginner', 'advanced', 'expert']
         self.level = level
         # create IngredientItem instances for dictionary of ingredients
-        self.ingredients = []
-        for ing in ingredients:
-            # save ingredient names without capital letters
-            base_data = ingredients_data.get(ing["name"].lower())
-            # check if ingredient exists
-            if base_data:
-                ingredient = IngredientItem(ing["name"], ing["amount"], base_data)
-                self.ingredients.append(ingredient)
-            else:
-                print(f"⚠ Ingredient '{ing['name']}' not found!")
+        self.ingredients = ingredients
         # explanation of the recipe as string
         self.text = text
         # boolean to specify whether the recipe is suitable for optional attribute meal prepping
@@ -65,11 +41,7 @@ class Recipe:
             print(f"Perfect for meal prep \n")
     def calculate_calories(self):
         # method calculates the total calories of the recipe with used ingredients
-        calories = 0
-        # loop through ingredients and sum up calories
-        for ingredient in self.ingredients:
-            calories += ingredient.calories
-        return calories
+        pass
     def calculate_total_time(self):
         # method calculates the total time needed for the recipe
         # only prep_time available
